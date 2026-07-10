@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mile Zero Studio — Websites Built From Scratch</title>
-<meta name="description" content="Mile Zero Studio designs and builds fast, custom websites from scratch — design, build, and launch, handled end to end.">
+<meta name="description" content="Mile Zero Studio designs and builds fast, custom websites from scratch — designed and built end to end.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta property="og:title" content="Mile Zero Studio — Websites Built From Scratch">
+<meta property="og:description" content="Custom websites designed and built from scratch — designed and built end to end.">
+<meta property="og:image" content="https://milezero.vercel.app/og.png">
+<meta property="og:url" content="https://milezero.vercel.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -430,7 +437,7 @@ body {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 600;
-  font-size: clamp(52px, 9vw, 130px);
+  font-size: clamp(34px, 9vw, 130px);
   line-height: 1;
   color: rgba(242,241,236,0.22);
   white-space: nowrap;
@@ -513,7 +520,7 @@ body {
         <h1>Every great website starts at <em>mile zero.</em></h1>
         <p class="hero__sub">
           Custom websites designed and built from scratch — no templates, no page builders.
-          You tell me what you need, and I handle everything from first sketch to live launch.
+          You tell me what you need, and I handle everything from first sketch to finished site.
         </p>
         <div class="hero__actions">
           <a href="#start" class="btn btn--solid">Start a project</a>
@@ -522,7 +529,7 @@ body {
         <div class="hero__ticks">
           <span>Built by hand</span>
           <span>Designed for phones first</span>
-          <span>Launch included</span>
+          <span>No templates</span>
         </div>
       </div>
       <div class="hero__signwrap">
@@ -559,7 +566,7 @@ body {
           <p>
             Full site for a Key West ice cream shop — custom illustration, live local weather
             in the hero, and automatic holiday takeovers that restyle the whole site for
-            Christmas, Halloween, the Fourth, and more. Designed, built, and launched end to end.
+            Christmas, Halloween, the Fourth, and more. Designed and built end to end.
           </p>
           <a class="work__live" href="https://flamingo-crossing.vercel.app" target="_blank" rel="noopener">Visit the live site ↗</a>
         </div>
@@ -601,8 +608,8 @@ body {
       </div>
       <div class="inc">
         <div class="inc__num">04</div>
-        <h3>Launch handled</h3>
-        <p>Domain, hosting, and go-live are part of the job. You get a link that works — not a to-do list.</p>
+        <h3>Yours to keep</h3>
+        <p>You get the complete, finished site — clean files you own, ready to go wherever you host it.</p>
       </div>
       <div class="inc">
         <div class="inc__num">05</div>
@@ -638,8 +645,8 @@ body {
       </div>
       <div class="mile reveal">
         <div class="mile__sign"><small>MILE</small><b>2</b></div>
-        <h3>Launch</h3>
-        <p>Your site goes live on your domain. I stick around to fix anything that needs fixing.</p>
+        <h3>Handoff</h3>
+        <p>You get the finished site, ready to go live, and I stick around to fix anything that needs fixing.</p>
       </div>
     </div>
   </div>
@@ -756,11 +763,9 @@ body {
 
 <script>
 /* ============================================================
-   DISCORD ORDER NOTIFICATIONS — same pattern as the gag shop.
-   Paste your webhook URL between the quotes below to go live.
-   (Discord: channel → Edit → Integrations → Webhooks → Copy URL)
+   DISCORD ORDER NOTIFICATIONS — sent via /api/notify so the
+   webhook URL stays server-side (Vercel env var DISCORD_WEBHOOK).
    ============================================================ */
-var WEBHOOK = 'https://discord.com/api/webhooks/1524965588349485116/SvOZIQSHk9_VXDSmDG-iGMYWwt6HNAYaseGrnUCAgmlSYUN8s5yldOGZa931qAjlVO9j';
 
 (function() {
   var form = document.getElementById('quoteForm');
@@ -810,36 +815,26 @@ var WEBHOOK = 'https://discord.com/api/webhooks/1524965588349485116/SvOZIQSHk9_V
       show('err', 'That email doesn’t look right — mind double-checking it?');
       return;
     }
-    if (!WEBHOOK) {
-      show('err', 'The request line isn’t hooked up yet — email me instead: <a href="mailto:blake.southgate13@gmail.com">blake.southgate13@gmail.com</a>');
-      return;
-    }
-
     btn.disabled = true;
     btn.textContent = 'Sending…';
 
-    var embed = {
-      color: 0x57C690,
-      title: '🚧 New Project Request',
-      fields: [
-        { name: 'Name', value: '`' + name + '`', inline: true },
-        { name: 'Email', value: '`' + email + '`', inline: true },
-        { name: 'Business', value: '`' + (form.elements.business.value.trim() || '—') + '`', inline: true },
-        { name: 'Current site', value: '`' + (form.elements.site.value.trim() || '—') + '`', inline: true },
-        { name: 'Needs', value: '`' + picked('type') + '`', inline: true },
-        { name: 'Style', value: '`' + (form.elements.stylecustom.value.trim() ? (picked('style') !== '—' ? picked('style') + ' + ' : '') + form.elements.stylecustom.value.trim() : picked('style')) + '`', inline: true },
-        { name: 'Should include', value: picked('features') + (form.elements.somethingelse.value.trim() ? ' + ' + form.elements.somethingelse.value.trim() : ''), inline: false },
-        { name: 'Branding', value: '`' + picked('branding') + '`', inline: true },
-        { name: 'About the project', value: desc.slice(0, 1000) }
-      ],
-      footer: { text: 'Mile Zero Studio' },
-      timestamp: new Date().toISOString()
+    var payload = {
+      name: name,
+      email: email,
+      business: form.elements.business.value.trim(),
+      site: form.elements.site.value.trim(),
+      needs: picked('type'),
+      style: (form.elements.stylecustom.value.trim() ? (picked('style') !== '—' ? picked('style') + ' + ' : '') + form.elements.stylecustom.value.trim() : picked('style')),
+      features: picked('features') + (form.elements.somethingelse.value.trim() ? ' + ' + form.elements.somethingelse.value.trim() : ''),
+      branding: picked('branding'),
+      desc: desc.slice(0, 1000),
+      website: form.elements.website.value
     };
 
-    fetch(WEBHOOK, {
+    fetch('/api/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'Mile Zero Notifier', embeds: [embed] })
+      body: JSON.stringify(payload)
     })
     .then(function(res) {
       if (!res.ok) throw new Error('webhook failed');
