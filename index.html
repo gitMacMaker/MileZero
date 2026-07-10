@@ -695,8 +695,8 @@ body {
             <button type="button" class="chip">Clean &amp; minimal</button>
             <button type="button" class="chip">Dark &amp; premium</button>
             <button type="button" class="chip">Elegant &amp; classic</button>
-            <button type="button" class="chip">You pick for me</button>
           </div>
+          <input id="f-style" name="stylecustom" type="text" placeholder="Or describe the style you want in your own words." style="margin-top: 10px;">
         </div>
         <div class="field">
           <label>What should the site include? <span style="font-weight:400">(pick any)</span></label>
@@ -827,7 +827,7 @@ var WEBHOOK = 'https://discord.com/api/webhooks/1524965588349485116/SvOZIQSHk9_V
         { name: 'Business', value: '`' + (form.elements.business.value.trim() || '—') + '`', inline: true },
         { name: 'Current site', value: '`' + (form.elements.site.value.trim() || '—') + '`', inline: true },
         { name: 'Needs', value: '`' + picked('type') + '`', inline: true },
-        { name: 'Style', value: '`' + picked('style') + '`', inline: true },
+        { name: 'Style', value: '`' + (form.elements.stylecustom.value.trim() ? (picked('style') !== '—' ? picked('style') + ' + ' : '') + form.elements.stylecustom.value.trim() : picked('style')) + '`', inline: true },
         { name: 'Should include', value: picked('features') + (form.elements.somethingelse.value.trim() ? ' + ' + form.elements.somethingelse.value.trim() : ''), inline: false },
         { name: 'Branding', value: '`' + picked('branding') + '`', inline: true },
         { name: 'About the project', value: desc.slice(0, 1000) }
