@@ -377,6 +377,26 @@ body {
 .form__note { font-size: 13.5px; color: var(--dim); text-align: center; }
 .hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
 
+.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.chip {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--dim);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 17px;
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+}
+.chip:hover { border-color: var(--dim); color: var(--text); }
+.chip.on {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(87,198,144,0.09);
+}
+
 .form__status {
   display: none;
   border-radius: 10px;
@@ -661,8 +681,46 @@ body {
           </div>
         </div>
         <div class="field">
-          <label for="f-desc">What do you need? <b>*</b></label>
-          <textarea id="f-desc" name="desc" required placeholder="Tell me about your business and what you want the site to do."></textarea>
+          <label>What do you need?</label>
+          <div class="chips" data-group="type" data-single>
+            <button type="button" class="chip">A brand-new site</button>
+            <button type="button" class="chip">Redesign my current site</button>
+            <button type="button" class="chip">Not sure yet</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>What style fits you?</label>
+          <div class="chips" data-group="style" data-single>
+            <button type="button" class="chip">Bold &amp; playful</button>
+            <button type="button" class="chip">Clean &amp; minimal</button>
+            <button type="button" class="chip">Dark &amp; premium</button>
+            <button type="button" class="chip">Elegant &amp; classic</button>
+            <button type="button" class="chip">You pick for me</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>What should the site include? <span style="font-weight:400">(pick any)</span></label>
+          <div class="chips" data-group="features">
+            <button type="button" class="chip">Menu or services</button>
+            <button type="button" class="chip">Photo gallery</button>
+            <button type="button" class="chip">Contact &amp; directions</button>
+            <button type="button" class="chip">Orders or requests</button>
+            <button type="button" class="chip">Bookings</button>
+            <button type="button" class="chip">Social links</button>
+            <button type="button" class="chip">Not sure</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Do you already have branding?</label>
+          <div class="chips" data-group="branding" data-single>
+            <button type="button" class="chip">Yes — logo &amp; colors</button>
+            <button type="button" class="chip">Some of it</button>
+            <button type="button" class="chip">Starting from scratch</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-desc">Anything else I should know? <b>*</b></label>
+          <textarea id="f-desc" name="desc" required placeholder="Tell me a little about your business — what it is, who it's for, anything you have in mind."></textarea>
         </div>
         <div class="hp" aria-hidden="true">
           <label>Leave this empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
@@ -708,6 +766,27 @@ var WEBHOOK = 'https://discord.com/api/webhooks/1524965588349485116/SvOZIQSHk9_V
   var btn = document.getElementById('formBtn');
   var status = document.getElementById('formStatus');
 
+  /* Chip selectors — single-select groups clear siblings */
+  document.querySelectorAll('.chips').forEach(function(group) {
+    group.addEventListener('click', function(e) {
+      var chip = e.target.closest('.chip');
+      if (!chip) return;
+      if (group.hasAttribute('data-single')) {
+        var wasOn = chip.classList.contains('on');
+        group.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('on'); });
+        if (!wasOn) chip.classList.add('on');
+      } else {
+        chip.classList.toggle('on');
+      }
+    });
+  });
+
+  function picked(name) {
+    var group = document.querySelector('.chips[data-group="' + name + '"]');
+    var on = Array.prototype.map.call(group.querySelectorAll('.chip.on'), function(c) { return c.textContent; });
+    return on.length ? on.join(', ') : '—';
+  }
+
   function show(kind, html) {
     status.className = 'form__status ' + kind;
     status.innerHTML = html;
@@ -746,7 +825,11 @@ var WEBHOOK = 'https://discord.com/api/webhooks/1524965588349485116/SvOZIQSHk9_V
         { name: 'Email', value: '`' + email + '`', inline: true },
         { name: 'Business', value: '`' + (form.elements.business.value.trim() || '—') + '`', inline: true },
         { name: 'Current site', value: '`' + (form.elements.site.value.trim() || '—') + '`', inline: true },
-        { name: 'What they need', value: desc.slice(0, 1000) }
+        { name: 'Needs', value: '`' + picked('type') + '`', inline: true },
+        { name: 'Style', value: '`' + picked('style') + '`', inline: true },
+        { name: 'Should include', value: picked('features'), inline: false },
+        { name: 'Branding', value: '`' + picked('branding') + '`', inline: true },
+        { name: 'About the project', value: desc.slice(0, 1000) }
       ],
       footer: { text: 'Mile Zero Studio' },
       timestamp: new Date().toISOString()
