@@ -709,6 +709,7 @@ body {
             <button type="button" class="chip">Social links</button>
             <button type="button" class="chip">Not sure</button>
           </div>
+          <input id="f-else" name="somethingelse" type="text" placeholder="Something else? Type it here." style="margin-top: 10px;">
         </div>
         <div class="field">
           <label>Do you already have branding?</label>
@@ -827,7 +828,7 @@ var WEBHOOK = 'https://discord.com/api/webhooks/1524965588349485116/SvOZIQSHk9_V
         { name: 'Current site', value: '`' + (form.elements.site.value.trim() || '—') + '`', inline: true },
         { name: 'Needs', value: '`' + picked('type') + '`', inline: true },
         { name: 'Style', value: '`' + picked('style') + '`', inline: true },
-        { name: 'Should include', value: picked('features'), inline: false },
+        { name: 'Should include', value: picked('features') + (form.elements.somethingelse.value.trim() ? ' + ' + form.elements.somethingelse.value.trim() : ''), inline: false },
         { name: 'Branding', value: '`' + picked('branding') + '`', inline: true },
         { name: 'About the project', value: desc.slice(0, 1000) }
       ],
