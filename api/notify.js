@@ -59,5 +59,22 @@ module.exports = async (req, res) => {
     res.status(502).json({ error: 'notify failed' });
     return;
   }
+
+  // Best-effort: also create a row on the status-tracker sheet via the
+  // Apps Script webhook. Never let a hiccup here fail the main request —
+  // the Discord notification above is what actually matters to the user.
+  const sheetHook = process.env.STATUS_SHEET_WEBHOOK;
+  if (sheetHook) {
+    try {
+      await fetch(sheetHook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, business: b.business || '' })
+      });
+    } catch (err) {
+      // swallow — this is a nice-to-have, not critical path
+    }
+  }
+
   res.status(200).json({ ok: true });
 };
