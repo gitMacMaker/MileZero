@@ -486,6 +486,16 @@ body {
   .inc { border-right: none !important; border-bottom: 1px solid var(--line-soft) !important; }
   .inc:last-child { border-bottom: none !important; }
 }
+.footer__social { margin-top: 16px; }
+.social-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-weight: 600; font-size: 14px;
+  color: #f2f1ec; background: rgba(87,198,144,0.14);
+  border: 1px solid rgba(87,198,144,0.5);
+  padding: 10px 22px; border-radius: 999px; text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.social-btn:hover { background: rgba(87,198,144,0.28); border-color: #57c690; }
 </style>
 </head>
 <body>
@@ -777,7 +787,7 @@ body {
       <b>Mile Zero Studio</b>
     </div>
     <p><a href="mailto:milezerostudio@gmail.com">milezerostudio@gmail.com</a></p>
-    <p><a href="https://www.instagram.com/milezerostudiokw/" target="_blank" rel="noopener">Instagram</a></p>
+    <p class="footer__social"><a class="social-btn" href="https://www.instagram.com/milezerostudiokw/" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.4" fill="currentColor" stroke="none"/></svg> @milezerostudiokw</a></p>
     <p>Websites built from scratch</p>
   </div>
 </footer>
