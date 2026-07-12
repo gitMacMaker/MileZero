@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
       await fetch(sheetHook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, business: b.business || '' })
+        body: JSON.stringify({ name, email, business: b.business || '' })
       });
     } catch (err) {
       // swallow — this is a nice-to-have, not critical path
